@@ -9,26 +9,42 @@ export default class Pawn extends Piece {
     }
 
     getAvailableMoves(board) {
-        let currentPositionOfPawn = board.findPiece(this);
+        let pawnPos = board.findPiece(this);
         var availableMoves = [];
+        let locationsToCheckForPieces;
         if (this.player == Player.BLACK) {
-            const square_below = new Square(currentPositionOfPawn.row - 1, currentPositionOfPawn.col)
+            const square_below = new Square(pawnPos.row - 1, pawnPos.col)
             availableMoves.push(square_below)
-            if (currentPositionOfPawn.row == 6 && board.getPiece(square_below) == undefined) {
-                const two_squares_below = new Square(currentPositionOfPawn.row - 2, currentPositionOfPawn.col)
+            if (pawnPos.row == 6 && board.getPiece(square_below) == undefined) {
+                const two_squares_below = new Square(pawnPos.row - 2, pawnPos.col)
                 availableMoves.push(two_squares_below)
             }
-        }
-
-        if (this.player == Player.WHITE) {
-            const square_above = new Square(currentPositionOfPawn.row + 1, currentPositionOfPawn.col)
+            locationsToCheckForPieces = [new Square(pawnPos.row-1, pawnPos.col-1), new Square(pawnPos.row-1, pawnPos.col+1)]
+            locationsToCheckForPieces = locationsToCheckForPieces
+                .filter(location => location.isValidSquare())
+                .filter(location => {
+                    let piece = board.getPiece(location);
+                    return (piece !== undefined && piece.player == Player.WHITE)
+            })
+        } else {
+            const square_above = new Square(pawnPos.row + 1, pawnPos.col)
             availableMoves.push(square_above)
-            if (currentPositionOfPawn.row == 1 && board.getPiece(square_above) == undefined) {
-                const two_squares_above = new Square(currentPositionOfPawn.row + 2, currentPositionOfPawn.col)
+            if (pawnPos.row == 1 && board.getPiece(square_above) == undefined) {
+                const two_squares_above = new Square(pawnPos.row + 2, pawnPos.col)
                 availableMoves.push(two_squares_above)
             }
+            locationsToCheckForPieces = [new Square(pawnPos.row+1, pawnPos.col-1), new Square(pawnPos.row+1, pawnPos.col+1)]
+            locationsToCheckForPieces = locationsToCheckForPieces
+                .filter(location => location.isValidSquare())
+                .filter(location => {
+                    let piece = board.getPiece(location);
+                    return (piece !== undefined && piece.player == Player.BLACK)
+            })
         }
-        availableMoves = availableMoves.filter(square => square.isValidSquare()).filter((location) => board.getPiece(location) === undefined);
+        availableMoves = availableMoves.filter(square => square.isValidSquare())
+        availableMoves = availableMoves.filter(square => board.getPiece(square) === undefined);
+        locationsToCheckForPieces = locationsToCheckForPieces.filter(square => board.getPiece(square) !== undefined && !(board.getPiece(square) instanceof King));
+        availableMoves = availableMoves.concat(locationsToCheckForPieces);
         return availableMoves;
     }
 }
