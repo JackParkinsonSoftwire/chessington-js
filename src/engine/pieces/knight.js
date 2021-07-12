@@ -19,6 +19,12 @@ export default class Knight extends Piece {
         availableMoves.push(new Square(row - 2, col + 1));
         availableMoves.push(new Square(row - 2, col - 1));
         availableMoves.push(new Square(row - 1, col - 2));
-        return availableMoves.filter(square => square.isValidSquare());;
+        availableMoves = availableMoves.filter(square => square.isValidSquare());
+        
+        availableMoves = availableMoves.filter(location => (board.getPiece(location) === undefined || !(board.getPiece(location) instanceof King)));
+
+        availableMoves = availableMoves.filter(location => (board.getPiece(location) === undefined || board.getPiece(location).player != this.player))
+
+        return availableMoves;
     }
 }
