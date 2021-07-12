@@ -10,20 +10,75 @@ export default class Bishop extends Piece {
     getAvailableMoves(board) {
         var availableMoves = [];
         let currentPositionOfBishop = board.findPiece(this);
-        let differenceBetweenXY = currentPositionOfBishop.row - currentPositionOfBishop.col;
-        let sumOfXY = currentPositionOfBishop.row + currentPositionOfBishop.col;
-        for (let row = 0;row<8;row++){
-            let col1 = sumOfXY - row;
-            let col2 = row - differenceBetweenXY;
-            let downRight = new Square(row, col1);
-            let downLeft = new Square(row, col2);
-            if (downRight.isValidSquare() && !downRight.equals(currentPositionOfBishop)){
-                availableMoves.push(downRight);
+        let { row, col } = currentPositionOfBishop
+
+        let TRfound = false;
+        let TLfound = false;
+        let BLfound = false;
+        let BRfound = false;
+        while (!TRfound) {
+            let next_pos = new Square(row + 1, col + 1)
+            if (board.getPiece(next_pos) !== undefined) {
+                TRfound = true
+            } if (next_pos.row == 7 || next_pos.col == 7) {
+                if (!TRfound) {
+                    availableMoves.push(next_pos)
+                }
+                TRfound = true
             }
-            if (downLeft.isValidSquare() && !downRight.equals(currentPositionOfBishop)){
-                availableMoves.push(downLeft);
+            if (!TRfound) {
+                availableMoves.push(next_pos);
+                ({ row, col } = next_pos);
             }
         }
-        return availableMoves;
+        ({ row, col } = currentPositionOfBishop);
+        while (!BLfound) {
+            let next_pos = new Square(row - 1, col - 1)
+            if (board.getPiece(next_pos) !== undefined) {
+                BLfound = true
+            } if (next_pos.row == 0 || next_pos.col == 0) {
+                if (!BLfound) {
+                    availableMoves.push(next_pos)
+                }
+                BLfound = true
+            }
+            if (!BLfound) {
+                availableMoves.push(next_pos);
+                ({ row, col } = next_pos);
+            }
+        }
+        ({ row, col } = currentPositionOfBishop);
+        while (!TLfound) {
+            let next_pos = new Square(row + 1, col - 1)
+            if (board.getPiece(next_pos) !== undefined) {
+                TLfound = true
+            } if (next_pos.row == 7 || next_pos.col == 0) {
+                if (!TLfound) {
+                    availableMoves.push(next_pos)
+                }
+                TLfound = true
+            }
+            if (!TLfound) {
+                availableMoves.push(next_pos);
+                ({ row, col } = next_pos);
+            }
+        }
+        ({ row, col } = currentPositionOfBishop);
+        while (!BRfound) {
+            let next_pos = new Square(row - 1, col + 1)
+            if (board.getPiece(next_pos) !== undefined) {
+                BRfound = true
+            } if (next_pos.row == 0 || next_pos.col == 7) {
+                if (!BRfound) {
+                    availableMoves.push(next_pos)
+                }
+                BRfound = true
+            }
+            if (!BRfound) {
+                availableMoves.push(next_pos);
+                ({ row, col } = next_pos);
+            }
+        }
+        return availableMoves
     }
 }
