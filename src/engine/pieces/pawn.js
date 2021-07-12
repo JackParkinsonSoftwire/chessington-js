@@ -27,7 +27,7 @@ export default class Pawn extends Piece {
                 availableMoves.push(two_squares_above)
             }
         }
-        availableMoves = availableMoves.filter((location) => board.getPiece(location) === undefined);
+        availableMoves = availableMoves.filter(square => square.isValidSquare()).filter((location) => board.getPiece(location) === undefined);
         return availableMoves;
     }
 }

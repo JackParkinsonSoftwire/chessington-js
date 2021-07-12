@@ -1,5 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
+import King from './king';
 
 export default class Rook extends Piece {
     constructor(player) {
@@ -11,10 +12,10 @@ export default class Rook extends Piece {
         var availableMoves = [];
         let isPastRow = false;
         let isPastCol = false;
-        let maxRow = -1;
-        let minRow = 8;
-        let maxCol = -1;
-        let minCol = 8;
+        let maxRow = 0;
+        let minRow = 7;
+        let maxCol = 0;
+        let minCol = 7;
         for (let i = 0; i < 8; i++) {
             var rowSquare = new Square(i, currentPositionOfRook.col);
             if (i !== currentPositionOfRook.row) {
@@ -43,11 +44,19 @@ export default class Rook extends Piece {
                 isPastCol = true;
             }
         }
+
+        availableMoves = availableMoves.filter(
+            location => location.row <= minRow 
+                && location.col <= minCol 
+                && location.row >= maxRow 
+                && location.col >= maxCol);
         
-        return availableMoves.filter(
-            location => location.row < minRow 
-                && location.col < minCol 
-                && location.row > maxRow 
-                && location.col > maxCol);
+        
+
+        availableMoves = availableMoves.filter(location => (board.getPiece(location) === undefined || !(board.getPiece(location) instanceof King)));
+
+        availableMoves = availableMoves.filter(location => (board.getPiece(location) === undefined || board.getPiece(location).player != this.player))
+
+        return availableMoves;
     }
 }

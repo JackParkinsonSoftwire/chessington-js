@@ -1,5 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
+import King from './king';
 
 
 export default class Bishop extends Piece {
@@ -18,14 +19,10 @@ export default class Bishop extends Piece {
         let BRfound = false;
         while (!TRfound) {
             let next_pos = new Square(row + 1, col + 1)
-            if (board.getPiece(next_pos) !== undefined) {
+            if (board.getPiece(next_pos) !== undefined || next_pos.row == 7 || next_pos.col == 7) {
                 TRfound = true
-            } if (next_pos.row == 7 || next_pos.col == 7) {
-                if (!TRfound) {
-                    availableMoves.push(next_pos)
-                }
-                TRfound = true
-            }
+                availableMoves.push(next_pos)
+            } 
             if (!TRfound) {
                 availableMoves.push(next_pos);
                 ({ row, col } = next_pos);
@@ -34,14 +31,10 @@ export default class Bishop extends Piece {
         ({ row, col } = currentPositionOfBishop);
         while (!BLfound) {
             let next_pos = new Square(row - 1, col - 1)
-            if (board.getPiece(next_pos) !== undefined) {
+            if (board.getPiece(next_pos) !== undefined || next_pos.row == 0 || next_pos.col == 0) {
                 BLfound = true
-            } if (next_pos.row == 0 || next_pos.col == 0) {
-                if (!BLfound) {
-                    availableMoves.push(next_pos)
-                }
-                BLfound = true
-            }
+                availableMoves.push(next_pos);
+            } 
             if (!BLfound) {
                 availableMoves.push(next_pos);
                 ({ row, col } = next_pos);
@@ -50,14 +43,10 @@ export default class Bishop extends Piece {
         ({ row, col } = currentPositionOfBishop);
         while (!TLfound) {
             let next_pos = new Square(row + 1, col - 1)
-            if (board.getPiece(next_pos) !== undefined) {
+            if (board.getPiece(next_pos) !== undefined || next_pos.row == 7 || next_pos.col == 0) {
                 TLfound = true
-            } if (next_pos.row == 7 || next_pos.col == 0) {
-                if (!TLfound) {
-                    availableMoves.push(next_pos)
-                }
-                TLfound = true
-            }
+                availableMoves.push(next_pos)
+            } 
             if (!TLfound) {
                 availableMoves.push(next_pos);
                 ({ row, col } = next_pos);
@@ -66,19 +55,21 @@ export default class Bishop extends Piece {
         ({ row, col } = currentPositionOfBishop);
         while (!BRfound) {
             let next_pos = new Square(row - 1, col + 1)
-            if (board.getPiece(next_pos) !== undefined) {
+            if (board.getPiece(next_pos) !== undefined || next_pos.row == 0 || next_pos.col == 7) {
                 BRfound = true
-            } if (next_pos.row == 0 || next_pos.col == 7) {
-                if (!BRfound) {
-                    availableMoves.push(next_pos)
-                }
-                BRfound = true
-            }
+                availableMoves.push(next_pos)
+            } 
             if (!BRfound) {
                 availableMoves.push(next_pos);
                 ({ row, col } = next_pos);
             }
         }
+
+        availableMoves = availableMoves.filter(location => 
+            (board.getPiece(location) === undefined || 
+            (!(board.getPiece(location) instanceof King) && board.getPiece(location).player != this.player)
+            ));
+
         return availableMoves
     }
 }

@@ -18,6 +18,6 @@ export default class King extends Piece {
         availableMoves.push(new Square(row - 1, col));
         availableMoves.push(new Square(row - 1, col + 1));
         availableMoves.push(new Square(row - 1, col - 1));
-        return availableMoves;
+        return availableMoves.filter(square => square.isValidSquare());
     }
 }
