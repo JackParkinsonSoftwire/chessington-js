@@ -28,7 +28,6 @@ export default class Queen extends Piece {
             availableMoves.push(across);
         }
         availableMoves = availableMoves.filter((square) => !square.equals(currentPositionOfQueen));
-        console.log(availableMoves);
         return availableMoves
     }
 }

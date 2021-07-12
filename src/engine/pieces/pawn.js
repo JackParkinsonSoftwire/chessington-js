@@ -9,20 +9,28 @@ export default class Pawn extends Piece {
 
     getAvailableMoves(board) {
         let currentPositionOfPawn = board.findPiece(this);
-        var availableMoves =[]
+        var availableMoves = [];
         if (this.player == Player.BLACK) {
-            const square_below = new Square(currentPositionOfPawn.row -1,currentPositionOfPawn.col)
+            const square_below = new Square(currentPositionOfPawn.row - 1, currentPositionOfPawn.col)
             availableMoves.push(square_below)
-            if (currentPositionOfPawn.row == 6){
-                const two_squares_below = new Square(currentPositionOfPawn.row -2,currentPositionOfPawn.col)
+            if (currentPositionOfPawn.row == 6 && board.getPiece(square_below) == undefined) {
+                const two_squares_below = new Square(currentPositionOfPawn.row - 2, currentPositionOfPawn.col)
                 availableMoves.push(two_squares_below)
             }
-        }if
-            (this.player == Player.WHITE){
-                const square_above = new Square(currentPositionOfPawn.row+1,currentPositionOfPawn.col)
-                availableMoves.push(square_above)
-                if (currentPositionOfPawn.row == 1){
-                    const two_squares_above = new Square(currentPositionOfPawn.row +2,currentPositionOfPawn.col)
-                    availableMoves.push(two_squares_above)
+        }
+
+        if (this.player == Player.WHITE) {
+            const square_above = new Square(currentPositionOfPawn.row + 1, currentPositionOfPawn.col)
+            availableMoves.push(square_above)
+            if (currentPositionOfPawn.row == 1 && board.getPiece(square_above) == undefined) {
+                const two_squares_above = new Square(currentPositionOfPawn.row + 2, currentPositionOfPawn.col)
+                availableMoves.push(two_squares_above)
             }
-        }return availableMoves}}
+        }
+        console.log(availableMoves);
+        console.log(currentPositionOfPawn);
+        availableMoves = availableMoves.filter((location) => board.getPiece(location) === undefined);
+        console.log(availableMoves);
+        return availableMoves;
+    }
+}
