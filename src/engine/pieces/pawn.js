@@ -9,20 +9,20 @@ export default class Pawn extends Piece {
 
     getAvailableMoves(board) {
         let currentPositionOfPawn = board.findPiece(this);
-        var available_moves =[]
+        var availableMoves =[]
         if (this.player == Player.BLACK) {
             const square_below = new Square(currentPositionOfPawn.row -1,currentPositionOfPawn.col)
-            available_moves.push(square_below)
+            availableMoves.push(square_below)
             if (currentPositionOfPawn.row == 6){
                 const two_squares_below = new Square(currentPositionOfPawn.row -2,currentPositionOfPawn.col)
-                available_moves.push(two_squares_below)
+                availableMoves.push(two_squares_below)
             }
         }if
             (this.player == Player.WHITE){
                 const square_above = new Square(currentPositionOfPawn.row+1,currentPositionOfPawn.col)
-                available_moves.push(square_above)
+                availableMoves.push(square_above)
                 if (currentPositionOfPawn.row == 1){
                     const two_squares_above = new Square(currentPositionOfPawn.row +2,currentPositionOfPawn.col)
-                    available_moves.push(two_squares_above)
+                    availableMoves.push(two_squares_above)
             }
-        }return available_moves}}
+        }return availableMoves}}
