@@ -27,10 +27,7 @@ export default class Pawn extends Piece {
                 availableMoves.push(two_squares_above)
             }
         }
-        console.log(availableMoves);
-        console.log(currentPositionOfPawn);
         availableMoves = availableMoves.filter((location) => board.getPiece(location) === undefined);
-        console.log(availableMoves);
         return availableMoves;
     }
 }
