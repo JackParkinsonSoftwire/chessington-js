@@ -42,5 +42,5 @@ export default class Board {
             this.setPiece(fromSquare, undefined);
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
         }
-    }
+    } 
 }
